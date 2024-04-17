@@ -29,5 +29,34 @@ internal class Program
         #endregion Conexión con la comunidad
 
         #endregion Primera Parte
+
+        #region Segunda Parte
+
+        #region Basico
+
+        // Cargar un genero de prueba
+
+        string identificador = Guid.NewGuid().ToString(); //Se pone en el grafo de ontología
+        Genre genero = new(identificador); //Se pone en el grafo de búsqueda
+        genero.Schema_name = "Genero de prueba";
+        mResourceApi.ChangeOntology("generoleo.owl");
+        SecondaryResource generoSR = genero.ToGnossApiResource(mResourceApi, $"Genre_{identificador}");
+        string mensajeFalloCarga = $"Error en la carga del Género con identificador {identificador} -> Nombre: {genero.Schema_name}";
+        try
+        {
+            mResourceApi.LoadSecondaryResource(generoSR);
+            if (!generoSR.Uploaded)
+            {
+                mResourceApi.Log.Error(mensajeFalloCarga);
+            }
+        }
+        catch (Exception)
+        {
+            mResourceApi.Log.Error($"Exception -> {mensajeFalloCarga}");
+        }
+
+        #endregion Basico
+
+        #endregion Segunda Parte
     }
 }
