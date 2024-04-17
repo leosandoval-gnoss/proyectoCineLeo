@@ -7,6 +7,7 @@ using GeneroleoOntology;
 using PeliculaleoOntology;
 using PersonaleoOntology;
 using Newtonsoft.Json.Linq;
+using GnossBase;
 
 internal class Program
 {
@@ -54,6 +55,19 @@ internal class Program
         {
             mResourceApi.Log.Error($"Exception -> {mensajeFalloCarga}");
         }
+
+        // Cargar una persona de prueba
+
+        mResourceApi.ChangeOntology("personaleo.owl");
+        Person persona1 = new Person();
+        persona1.Schema_name = new Dictionary<GnossBase.GnossOCBase.LanguageEnum, string>()
+        {
+            {GnossOCBase.LanguageEnum.es, "Persona prueba"}
+        };
+
+        ComplexOntologyResource resorceLoad = persona1.ToGnossApiResource(mResourceApi, null, Guid.NewGuid(), Guid.NewGuid());
+        mResourceApi.LoadComplexSemanticResource(resorceLoad);
+
 
         #endregion Basico
 

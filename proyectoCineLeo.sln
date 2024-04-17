@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "proyectoCineLeo", "proyectoCineLeo\proyectoCineLeo.csproj", "{9F39715C-9C16-4A55-9469-BF4F75DBC761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "proyectoCineLeo", "proyectoCineLeo\proyectoCineLeo.csproj", "{9F39715C-9C16-4A55-9469-BF4F75DBC761}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "demo-gnoss-akademia-20-10", "ClasesGeneradas\demo-gnoss-akademia-20-10.csproj", "{F29102A2-790C-4306-BED0-EB240643AB86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "demo-gnoss-akademia-20-10", "ClasesGeneradas\demo-gnoss-akademia-20-10.csproj", "{33BE152E-425A-4049-9BCB-147ED84B057B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{9F39715C-9C16-4A55-9469-BF4F75DBC761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F39715C-9C16-4A55-9469-BF4F75DBC761}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F39715C-9C16-4A55-9469-BF4F75DBC761}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F29102A2-790C-4306-BED0-EB240643AB86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F29102A2-790C-4306-BED0-EB240643AB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F29102A2-790C-4306-BED0-EB240643AB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F29102A2-790C-4306-BED0-EB240643AB86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33BE152E-425A-4049-9BCB-147ED84B057B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BE152E-425A-4049-9BCB-147ED84B057B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33BE152E-425A-4049-9BCB-147ED84B057B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33BE152E-425A-4049-9BCB-147ED84B057B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
