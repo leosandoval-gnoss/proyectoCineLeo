@@ -12,6 +12,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        #region Primera parte
         #region Conexión y datos de la comunidad
         string pathOAuth = @"Config\oAuth.config";
         ResourceApi mResourceApi = new ResourceApi(Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, pathOAuth));
@@ -26,5 +27,7 @@ internal class Program
         Console.WriteLine($"Categorías de la Comunidad -> {string.Join(", ", mCommunityApi.CommunityCategories.Select(categoria => categoria.category_name))}");
 
         #endregion Conexión con la comunidad
+
+        #endregion Primera Parte
     }
 }
