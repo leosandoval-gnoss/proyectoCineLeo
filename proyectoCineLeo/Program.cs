@@ -71,7 +71,7 @@ internal class Program
 
         // Modificacion de persona de prueba
 
-        string uri = getUriPersona("Persona prueba", mResourceApi);
+        string uri = getUriRecurso("Persona prueba","personaleo",mResourceApi);
 
         string[] partes = uri.Split('/', '_');
 
@@ -79,16 +79,16 @@ internal class Program
         string articleID = partes[6];
 
         Person persona1Modificado = new Person();
-        persona1Modificado.Schema_name = new Dictionary<GnossOCBase.LanguageEnum, string>() {
-            { GnossOCBase.LanguageEnum.es,"Persona prueba modificado" }
+        persona1Modificado.Schema_name = new Dictionary<GnossOCBase.LanguageEnum, string>() { 
+            { GnossOCBase.LanguageEnum.es,"Persona prueba modificado" } 
         };
 
         mResourceApi.ModifyComplexOntologyResource(persona1Modificado.ToGnossApiResource(mResourceApi, null, new Guid(resourceId), new Guid(articleID)), false, true);
 
         // Eliminar la persona de prueba
 
-        uri = getUriPersona("Persona prueba modificado", mResourceApi);
-
+        uri = getUriRecurso("Persona prueba modificado", "personaleo", mResourceApi);
+        
         try
         {
             mResourceApi.ChangeOntology("personaleo.owl");
@@ -101,8 +101,6 @@ internal class Program
 
         // Carga persona prueba 2
 
-
-
         mResourceApi.ChangeOntology("personaleo.owl");
         Person persona2 = new Person();
         persona2.Schema_name = new Dictionary<GnossBase.GnossOCBase.LanguageEnum, string>()
@@ -113,61 +111,21 @@ internal class Program
         resorceLoad = persona2.ToGnossApiResource(mResourceApi, null, Guid.NewGuid(), Guid.NewGuid());
         mResourceApi.LoadComplexSemanticResource(resorceLoad);
 
-        //  Carga Película de Prueba
-
-        string uriPersonaPrueba = getUriPersona("Persona prueba 2", mResourceApi);
-        string uriGeneroPrueba = getUriGenero("Genero de prueba", mResourceApi);
-
-        Movie pelicula = new Movie();
-        pelicula.Schema_image = new Dictionary<GnossOCBase.LanguageEnum, string>() { { GnossOCBase.LanguageEnum.es, "https://walpaper.es/wallpaper/2015/11/wallpaper-gratis-de-un-espectacular-paisaje-en-color-azul-en-hd.jpg" } };
-        pelicula.Schema_name = new Dictionary<GnossOCBase.LanguageEnum, string>() { { GnossOCBase.LanguageEnum.es, "Pelicula de prueba" } };
-        pelicula.Schema_description = new Dictionary<GnossOCBase.LanguageEnum, string>() { { GnossOCBase.LanguageEnum.es, "Descripcion de pelicula de prueba" } };
-        pelicula.Schema_duration = new List<int>() { { 60 } };
-        pelicula.Schema_contentRating = new Dictionary<GnossOCBase.LanguageEnum, string>() { { GnossOCBase.LanguageEnum.es,"+12"} };
-        pelicula.IdsSchema_actor = new List<string>() { uriPersonaPrueba };
-        pelicula.IdsSchema_genre = new List<string>() { uriGeneroPrueba};
-        mResourceApi.ChangeOntology("peliculaleo.owl");
-        ComplexOntologyResource resorceToLoad = pelicula.ToGnossApiResource(mResourceApi, null, Guid.NewGuid(), Guid.NewGuid());
-        string idPeliculaCargada = mResourceApi.LoadComplexSemanticResource(resorceToLoad);
-
         #endregion Basico
 
         #endregion Segunda Parte
     }
 
-    public static string getUriPersona(string nombre, ResourceApi mResourceApi)
+    public static string getUriRecurso(string nombre, string ontologia, ResourceApi mResourceApi)
     {
         string uri = "";
 
         //Obtención del id de la persona cargada en la comunidad
-        string pOntology = "personaleo";
+        string pOntology = ontologia;
         string select = string.Empty, where = string.Empty;
         select += $@"SELECT DISTINCT ?s";
         where += $@" WHERE {{ ";
         where += $@"OPTIONAL{{?s ?p '{nombre}'@es.}}";
-        where += $@"}}";
-
-        SparqlObject resultadoQuery = mResourceApi.VirtuosoQuery(select, where, pOntology);
-        //Si está ya en el grafo, obtengo la URI
-        if (resultadoQuery != null && resultadoQuery.results != null && resultadoQuery.results.bindings != null && resultadoQuery.results.bindings.Count > 0 && resultadoQuery.results.bindings.FirstOrDefault()?.Keys.Count > 0)
-        {
-            foreach (var item in resultadoQuery.results.bindings)
-            {
-                uri = item["s"].value;
-            }
-        }
-        return uri;
-    }
-    public static string getUriGenero(string nombre, ResourceApi mResourceApi)
-    {
-        string uri = "";
-
-        //Obtención del id de la persona cargada en la comunidad
-        string pOntology = "generoleo";
-        string select = string.Empty, where = string.Empty;
-        select += $@"SELECT DISTINCT ?s";
-        where += $@" WHERE {{ ";
-        where += $@"OPTIONAL{{?s ?p '{nombre}'.}}";
         where += $@"}}";
 
         SparqlObject resultadoQuery = mResourceApi.VirtuosoQuery(select, where, pOntology);
