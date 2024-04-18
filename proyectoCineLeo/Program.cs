@@ -99,6 +99,17 @@ internal class Program
             mResourceApi.Log.Error(ex.ToString());
         }
 
+        // Carga persona prueba 2
+
+        mResourceApi.ChangeOntology("personaleo.owl");
+        Person persona2 = new Person();
+        persona2.Schema_name = new Dictionary<GnossBase.GnossOCBase.LanguageEnum, string>()
+        {
+            {GnossOCBase.LanguageEnum.es, "Persona prueba 2"}
+        };
+
+        resorceLoad = persona2.ToGnossApiResource(mResourceApi, null, Guid.NewGuid(), Guid.NewGuid());
+        mResourceApi.LoadComplexSemanticResource(resorceLoad);
 
         #endregion Basico
 
