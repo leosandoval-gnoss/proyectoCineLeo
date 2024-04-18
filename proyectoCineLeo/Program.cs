@@ -8,6 +8,7 @@ using PeliculaleoOntology;
 using PersonaleoOntology;
 using Newtonsoft.Json.Linq;
 using GnossBase;
+using Gnoss.ApiWrapper.Helpers;
 
 internal class Program
 {
@@ -62,13 +63,47 @@ internal class Program
         Person persona1 = new Person();
         persona1.Schema_name = new Dictionary<GnossBase.GnossOCBase.LanguageEnum, string>()
         {
-            {GnossOCBase.LanguageEnum.es, "Persona prueba"}
+            {GnossOCBase.LanguageEnum.es, "Persona1"}
         };
 
         ComplexOntologyResource resorceLoad = persona1.ToGnossApiResource(mResourceApi, null, Guid.NewGuid(), Guid.NewGuid());
         mResourceApi.LoadComplexSemanticResource(resorceLoad);
 
+        // Modificacion de persona de prueba
 
+        string uri = "";
+
+        //Obtención del id de la persona cargada en la comunidad
+        string pOntology = "personaleo";
+        string select = string.Empty, where = string.Empty;
+        select += $@"SELECT DISTINCT ?s";
+        where += $@" WHERE {{ ";
+        where += $@"OPTIONAL{{?s ?p 'Persona prueba'@es.}}";
+        where += $@"}}";
+
+        SparqlObject resultadoQuery = mResourceApi.VirtuosoQuery(select, where, pOntology);
+        //Si está ya en el grafo, obtengo la URI
+        if (resultadoQuery != null && resultadoQuery.results != null && resultadoQuery.results.bindings != null && resultadoQuery.results.bindings.Count > 0 && resultadoQuery.results.bindings.FirstOrDefault()?.Keys.Count > 0)
+        {
+            foreach (var item in resultadoQuery.results.bindings)
+            {
+                uri = item["s"].value;
+            }
+        }
+
+        string[] partes = uri.Split('/', '_');
+
+        string resourceId = partes[5];
+        string articleID = partes[6];
+
+        Person personaActor1Modificado = new Person();
+        personaActor1Modificado.Schema_name = new Dictionary<GnossOCBase.LanguageEnum, string>() { 
+            { GnossOCBase.LanguageEnum.es,"Persona prueba modificado" } 
+        };
+
+        mResourceApi.ModifyComplexOntologyResource(personaActor1Modificado.ToGnossApiResource(mResourceApi, null, new Guid(resourceId), new Guid(articleID)), false, true);
+
+        // Eliminar la persona de prueba
         #endregion Basico
 
         #endregion Segunda Parte
