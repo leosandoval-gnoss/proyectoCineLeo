@@ -63,7 +63,7 @@ internal class Program
         Person persona1 = new Person();
         persona1.Schema_name = new Dictionary<GnossBase.GnossOCBase.LanguageEnum, string>()
         {
-            {GnossOCBase.LanguageEnum.es, "Persona1"}
+            {GnossOCBase.LanguageEnum.es, "Persona prueba"}
         };
 
         ComplexOntologyResource resorceLoad = persona1.ToGnossApiResource(mResourceApi, null, Guid.NewGuid(), Guid.NewGuid());
@@ -71,14 +71,50 @@ internal class Program
 
         // Modificacion de persona de prueba
 
+        string uri = getUriRecurso("Persona prueba","personaleo",mResourceApi);
+
+        string[] partes = uri.Split('/', '_');
+
+        string resourceId = partes[5];
+        string articleID = partes[6];
+
+        Person persona1Modificado = new Person();
+        persona1Modificado.Schema_name = new Dictionary<GnossOCBase.LanguageEnum, string>() { 
+            { GnossOCBase.LanguageEnum.es,"Persona prueba modificado" } 
+        };
+
+        mResourceApi.ModifyComplexOntologyResource(persona1Modificado.ToGnossApiResource(mResourceApi, null, new Guid(resourceId), new Guid(articleID)), false, true);
+
+        // Eliminar la persona de prueba
+
+        uri = getUriRecurso("Persona prueba modificado", "personaleo", mResourceApi);
+        
+        try
+        {
+            mResourceApi.ChangeOntology("personaleo.owl");
+            mResourceApi.PersistentDelete(mResourceApi.GetShortGuid(uri), true, true);
+        }
+        catch (Exception ex)
+        {
+            mResourceApi.Log.Error(ex.ToString());
+        }
+
+
+        #endregion Basico
+
+        #endregion Segunda Parte
+    }
+
+    public static string getUriRecurso(string nombre, string ontologia, ResourceApi mResourceApi)
+    {
         string uri = "";
 
         //Obtención del id de la persona cargada en la comunidad
-        string pOntology = "personaleo";
+        string pOntology = ontologia;
         string select = string.Empty, where = string.Empty;
         select += $@"SELECT DISTINCT ?s";
         where += $@" WHERE {{ ";
-        where += $@"OPTIONAL{{?s ?p 'Persona prueba'@es.}}";
+        where += $@"OPTIONAL{{?s ?p '{nombre}'@es.}}";
         where += $@"}}";
 
         SparqlObject resultadoQuery = mResourceApi.VirtuosoQuery(select, where, pOntology);
@@ -90,22 +126,6 @@ internal class Program
                 uri = item["s"].value;
             }
         }
-
-        string[] partes = uri.Split('/', '_');
-
-        string resourceId = partes[5];
-        string articleID = partes[6];
-
-        Person personaActor1Modificado = new Person();
-        personaActor1Modificado.Schema_name = new Dictionary<GnossOCBase.LanguageEnum, string>() { 
-            { GnossOCBase.LanguageEnum.es,"Persona prueba modificado" } 
-        };
-
-        mResourceApi.ModifyComplexOntologyResource(personaActor1Modificado.ToGnossApiResource(mResourceApi, null, new Guid(resourceId), new Guid(articleID)), false, true);
-
-        // Eliminar la persona de prueba
-        #endregion Basico
-
-        #endregion Segunda Parte
+        return uri;
     }
 }
