@@ -27,9 +27,7 @@ namespace PeliculaleoOntology
 		{
 			mGNOSSID = pSemCmsModel.Entity.Uri;
 			mURL = pSemCmsModel.Properties.FirstOrDefault(p => p.PropertyValues.Any(prop => prop.DownloadUrl != null))?.FirstPropertyValue.DownloadUrl;
-			this.Schema_ratingValue = new Dictionary<LanguageEnum,string>();
-			this.Schema_ratingValue.Add(idiomaUsuario , GetPropertyValueSemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/ratingValue")));
-			
+			this.Schema_ratingValue = GetNumberIntPropertyValueSemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/ratingValue"));
 			this.Schema_ratingSource = new Dictionary<LanguageEnum,string>();
 			this.Schema_ratingSource.Add(idiomaUsuario , GetPropertyValueSemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/ratingSource")));
 			
@@ -41,7 +39,7 @@ namespace PeliculaleoOntology
 
 		[LABEL(LanguageEnum.es,"http://schema.org/ratingValue")]
 		[RDFProperty("http://schema.org/ratingValue")]
-		public  Dictionary<LanguageEnum,string> Schema_ratingValue { get; set;}
+		public  int? Schema_ratingValue { get; set;}
 
 		[LABEL(LanguageEnum.es,"http://schema.org/ratingSource")]
 		[RDFProperty("http://schema.org/ratingSource")]
@@ -51,17 +49,7 @@ namespace PeliculaleoOntology
 		internal override void GetProperties()
 		{
 			base.GetProperties();
-			if(this.Schema_ratingValue != null)
-			{
-				foreach (LanguageEnum idioma in this.Schema_ratingValue.Keys)
-				{
-					propList.Add(new StringOntologyProperty("schema:ratingValue", this.Schema_ratingValue[idioma], idioma.ToString()));
-				}
-			}
-			else
-			{
-				throw new GnossAPIException($"La propiedad schema:ratingValue debe tener al menos un valor en el recurso: {resourceID}");
-			}
+			propList.Add(new StringOntologyProperty("schema:ratingValue", this.Schema_ratingValue.ToString()));
 			if(this.Schema_ratingSource != null)
 			{
 				foreach (LanguageEnum idioma in this.Schema_ratingSource.Keys)

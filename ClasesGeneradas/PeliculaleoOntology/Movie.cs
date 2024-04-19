@@ -612,10 +612,7 @@ namespace PeliculaleoOntology
 				AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Movie_{ResourceID}_{ArticleID}", "http://schema.org/rating", $"<{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}>", list, " . ");
 				if(item0.Schema_ratingValue != null)
 				{
-							foreach (LanguageEnum idioma in item0.Schema_ratingValue.Keys)
-							{
-								AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}", "http://schema.org/ratingValue",  $"\"{GenerarTextoSinSaltoDeLinea(item0.Schema_ratingValue[idioma])}\"", list,  $"@{idioma} . ");
-							}
+					AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}", "http://schema.org/ratingValue",  $"{item0.Schema_ratingValue.Value.ToString()}", list, " . ");
 				}
 				if(item0.Schema_ratingSource != null)
 				{
@@ -799,10 +796,7 @@ namespace PeliculaleoOntology
 				AgregarTripleALista($"http://gnoss/{ResourceID.ToString().ToUpper()}", "http://schema.org/rating", $"<{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}>", list, " . ");
 				if(item0.Schema_ratingValue != null)
 				{
-							foreach (LanguageEnum idioma in item0.Schema_ratingValue.Keys)
-							{
-								AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}", "http://schema.org/ratingValue",  $"\"{GenerarTextoSinSaltoDeLinea(item0.Schema_ratingValue[idioma])}\"", list,  $"@{idioma} . ");
-							}
+					AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}", "http://schema.org/ratingValue",  $"{item0.Schema_ratingValue.Value.ToString()}", list, " . ");
 				}
 				if(item0.Schema_ratingSource != null)
 				{
