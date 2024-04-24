@@ -13,6 +13,14 @@ using System.Globalization;
 
 internal class Program
 {
+    // Consulta para ver el actor con mas peliculas
+    /*
+     * Select ?actor (Count(?peli) as ?total)
+     * From peliculaleo.owl
+     * WHERE {
+     * ?peli schema:actor ?actor 
+     * } group by?actor order by desc (?total) limit 1
+     */
     private static void Main(string[] args)
     {
         #region Conexión y datos de la comunidad
