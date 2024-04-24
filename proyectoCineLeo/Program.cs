@@ -213,7 +213,7 @@ internal class Program
                 string nomGeneroFormateado = nomGenero.Trim();
                 string uri = getUriGenero(nomGeneroFormateado, mResourceApi);
                 if (uri.Length != 0) { generos.Add(uri); continue; };
-                uri = cargaGenero(nomGenero, mResourceApi);
+                uri = cargaGenero(nomGeneroFormateado, mResourceApi);
                 generos.Add(uri);
             }
 
@@ -324,7 +324,7 @@ internal class Program
         persona.Schema_name = new Dictionary<GnossOCBase.LanguageEnum, string>() { { GnossOCBase.LanguageEnum.es, nombre } };
         ComplexOntologyResource resorceLoad = persona.ToGnossApiResource(mResourceApi, null, Guid.NewGuid(), Guid.NewGuid());
         mResourceApi.LoadComplexSemanticResource(resorceLoad);
-        return persona.GetURI(mResourceApi);
+        return getUriPersona(nombre, mResourceApi);
     }
     /// <summary>
     /// Devuelve la uri de un recurso persona si existe en la comunidad sino la cadena estará vacia
@@ -410,6 +410,7 @@ internal class Program
         {
             mResourceApi.Log.Error($"Exception -> {mensajeFalloCarga}");
         }
-        return genero.GetURI(mResourceApi);
+        
+        return getUriGenero(nombre,mResourceApi);
     }
 }
