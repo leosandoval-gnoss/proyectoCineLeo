@@ -361,74 +361,74 @@ namespace PeliculaleoOntology
 		public  List<Genre> Schema_genre { get; set;}
 		public List<string> IdsSchema_genre { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/author")]
+		[LABEL(LanguageEnum.es,"Guionistas")]
 		[RDFProperty("http://schema.org/author")]
 		public  List<Person> Schema_author { get; set;}
 		public List<string> IdsSchema_author { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/rating")]
+		[LABEL(LanguageEnum.es,"Puntuaciones")]
 		[RDFProperty("http://schema.org/rating")]
 		public  List<Rating> Schema_rating { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/director")]
+		[LABEL(LanguageEnum.es,"Directores")]
 		[RDFProperty("http://schema.org/director")]
 		public  List<Person> Schema_director { get; set;}
 		public List<string> IdsSchema_director { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/actor")]
+		[LABEL(LanguageEnum.es,"Actores")]
 		[RDFProperty("http://schema.org/actor")]
 		public  List<Person> Schema_actor { get; set;}
 		public List<string> IdsSchema_actor { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/description")]
+		[LABEL(LanguageEnum.es,"Sinopsis")]
 		[RDFProperty("http://schema.org/description")]
 		public  Dictionary<LanguageEnum,string> Schema_description { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/url")]
+		[LABEL(LanguageEnum.es,"Enlace externo")]
 		[RDFProperty("http://schema.org/url")]
 		public  Dictionary<LanguageEnum,List<string>> Schema_url { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/recordedAt")]
+		[LABEL(LanguageEnum.es,"Año grabación")]
 		[RDFProperty("http://schema.org/recordedAt")]
 		public  Dictionary<LanguageEnum,List<string>> Schema_recordedAt { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/name")]
+		[LABEL(LanguageEnum.es,"Título")]
 		[RDFProperty("http://schema.org/name")]
 		public  Dictionary<LanguageEnum,string> Schema_name { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/datePublished")]
+		[LABEL(LanguageEnum.es,"Año lanzamiento")]
 		[RDFProperty("http://schema.org/datePublished")]
 		public  DateTime? Schema_datePublished { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/duration")]
+		[LABEL(LanguageEnum.es,"Duración")]
 		[RDFProperty("http://schema.org/duration")]
 		public  List<int> Schema_duration { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/image")]
+		[LABEL(LanguageEnum.es,"Imagen")]
 		[RDFProperty("http://schema.org/image")]
 		public  Dictionary<LanguageEnum,string> Schema_image { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/aggregateRating")]
+		[LABEL(LanguageEnum.es,"Puntuación IMDb")]
 		[RDFProperty("http://schema.org/aggregateRating")]
 		public  Dictionary<LanguageEnum,List<string>> Schema_aggregateRating { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/productionCompany")]
+		[LABEL(LanguageEnum.es,"Productoras")]
 		[RDFProperty("http://schema.org/productionCompany")]
 		public  Dictionary<LanguageEnum,List<string>> Schema_productionCompany { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/countryOfOrigin")]
+		[LABEL(LanguageEnum.es,"País")]
 		[RDFProperty("http://schema.org/countryOfOrigin")]
 		public  Dictionary<LanguageEnum,List<string>> Schema_countryOfOrigin { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/contentRating")]
+		[LABEL(LanguageEnum.es,"Clasificación del contenido")]
 		[RDFProperty("http://schema.org/contentRating")]
 		public  Dictionary<LanguageEnum,string> Schema_contentRating { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/inLanguage")]
+		[LABEL(LanguageEnum.es,"Idioma")]
 		[RDFProperty("http://schema.org/inLanguage")]
 		public  Dictionary<LanguageEnum,List<string>> Schema_inLanguage { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/award")]
+		[LABEL(LanguageEnum.es,"Premios")]
 		[RDFProperty("http://schema.org/award")]
 		public  Dictionary<LanguageEnum,List<string>> Schema_award { get; set;}
 
@@ -612,10 +612,7 @@ namespace PeliculaleoOntology
 				AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Movie_{ResourceID}_{ArticleID}", "http://schema.org/rating", $"<{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}>", list, " . ");
 				if(item0.Schema_ratingValue != null)
 				{
-							foreach (LanguageEnum idioma in item0.Schema_ratingValue.Keys)
-							{
-								AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}", "http://schema.org/ratingValue",  $"\"{GenerarTextoSinSaltoDeLinea(item0.Schema_ratingValue[idioma])}\"", list,  $"@{idioma} . ");
-							}
+					AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}", "http://schema.org/ratingValue",  $"{item0.Schema_ratingValue.Value.ToString()}", list, " . ");
 				}
 				if(item0.Schema_ratingSource != null)
 				{
@@ -799,10 +796,7 @@ namespace PeliculaleoOntology
 				AgregarTripleALista($"http://gnoss/{ResourceID.ToString().ToUpper()}", "http://schema.org/rating", $"<{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}>", list, " . ");
 				if(item0.Schema_ratingValue != null)
 				{
-							foreach (LanguageEnum idioma in item0.Schema_ratingValue.Keys)
-							{
-								AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}", "http://schema.org/ratingValue",  $"\"{GenerarTextoSinSaltoDeLinea(item0.Schema_ratingValue[idioma])}\"", list,  $"@{idioma} . ");
-							}
+					AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Rating_{ResourceID}_{item0.ArticleID}", "http://schema.org/ratingValue",  $"{item0.Schema_ratingValue.Value.ToString()}", list, " . ");
 				}
 				if(item0.Schema_ratingSource != null)
 				{

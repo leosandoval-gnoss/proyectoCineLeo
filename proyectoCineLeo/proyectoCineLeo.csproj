@@ -19,6 +19,9 @@
     <None Update="Config\oAuth.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Data\query - Copia.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\query.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
