@@ -63,6 +63,7 @@ namespace PersonaleoOntology
 					}
 				}
 			}
+			this.Schema_birthDate = GetDateValuePropertySemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/birthDate"));
 			this.Schema_image = GetPropertyValueSemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/image"));
 			this.Schema_name = new Dictionary<LanguageEnum,string>();
 			this.Schema_name.Add(idiomaUsuario , GetPropertyValueSemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/name")));
@@ -109,6 +110,7 @@ namespace PersonaleoOntology
 					}
 				}
 			}
+			this.Schema_birthDate = GetDateValuePropertySemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/birthDate"));
 			this.Schema_image = GetPropertyValueSemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/image"));
 			this.Schema_name = new Dictionary<LanguageEnum,string>();
 			this.Schema_name.Add(idiomaUsuario , GetPropertyValueSemCms(pSemCmsModel.GetPropertyByPath("http://schema.org/name")));
@@ -117,7 +119,7 @@ namespace PersonaleoOntology
 
 		public virtual string RdfType { get { return "http://schema.org/Person"; } }
 		public virtual string RdfsLabel { get { return "http://schema.org/Person"; } }
-		[LABEL(LanguageEnum.es,"http://try.gnoss.com/ontology#actorOf")]
+		[LABEL(LanguageEnum.es,"Ha actuado")]
 		[RDFProperty("http://try.gnoss.com/ontology#actorOf")]
 		public  List<Movie> Try_actorOf { get; set;}
 		public List<string> IdsTry_actorOf { get; set;}
@@ -127,16 +129,20 @@ namespace PersonaleoOntology
 		public  List<Movie> Try_authorOf { get; set;}
 		public List<string> IdsTry_authorOf { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://try.gnoss.com/ontology#directorOf")]
+		[LABEL(LanguageEnum.es,"Director de")]
 		[RDFProperty("http://try.gnoss.com/ontology#directorOf")]
 		public  List<Movie> Try_directorOf { get; set;}
 		public List<string> IdsTry_directorOf { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/image")]
+		[LABEL(LanguageEnum.es,"http://schema.org/birthDate")]
+		[RDFProperty("http://schema.org/birthDate")]
+		public  DateTime? Schema_birthDate { get; set;}
+
+		[LABEL(LanguageEnum.es,"Foto")]
 		[RDFProperty("http://schema.org/image")]
 		public  string Schema_image { get; set;}
 
-		[LABEL(LanguageEnum.es,"http://schema.org/name")]
+		[LABEL(LanguageEnum.es,"Nombre completo")]
 		[RDFProperty("http://schema.org/name")]
 		public  Dictionary<LanguageEnum,string> Schema_name { get; set;}
 
@@ -147,6 +153,9 @@ namespace PersonaleoOntology
 			propList.Add(new ListStringOntologyProperty("try:actorOf", this.IdsTry_actorOf));
 			propList.Add(new ListStringOntologyProperty("try:authorOf", this.IdsTry_authorOf));
 			propList.Add(new ListStringOntologyProperty("try:directorOf", this.IdsTry_directorOf));
+			if (this.Schema_birthDate.HasValue){
+				propList.Add(new DateOntologyProperty("schema:birthDate", this.Schema_birthDate.Value));
+				}
 			if(this.Schema_name != null)
 			{
 				foreach (LanguageEnum idioma in this.Schema_name.Keys)
@@ -228,6 +237,10 @@ namespace PersonaleoOntology
 					{
 						AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Person_{ResourceID}_{ArticleID}", "http://try.gnoss.com/ontology#directorOf", $"<{item2}>", list, " . ");
 					}
+				}
+				if(this.Schema_birthDate != null)
+				{
+					AgregarTripleALista($"{resourceAPI.GraphsUrl}items/Person_{ResourceID}_{ArticleID}", "http://schema.org/birthDate",  $"\"{this.Schema_birthDate.Value.ToString("yyyyMMddHHmmss")}\"", list, " . ");
 				}
 				if(this.Schema_image != null)
 				{
@@ -311,6 +324,10 @@ namespace PersonaleoOntology
 					}
 						AgregarTripleALista($"http://gnoss/{ResourceID.ToString().ToUpper()}", "http://try.gnoss.com/ontology#directorOf", $"<{itemRegex}>", list, " . ");
 					}
+				}
+				if(this.Schema_birthDate != null)
+				{
+					AgregarTripleALista($"http://gnoss/{ResourceID.ToString().ToUpper()}", "http://schema.org/birthDate",  $"{this.Schema_birthDate.Value.ToString("yyyyMMddHHmmss")}", list, " . ");
 				}
 				if(this.Schema_image != null)
 				{
