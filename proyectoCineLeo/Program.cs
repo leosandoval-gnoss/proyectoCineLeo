@@ -115,7 +115,11 @@ internal class Program
 
         #region Carga datos CSV
 
+        Console.WriteLine("INICIO DE LA CARGA DE DATOS");
+
         cargaDatosCSV("Data/query.csv", mResourceApi);
+
+        Console.WriteLine("FIN DE LA CARGA DE DATOS");
 
         #endregion Carga datos CSV
     }
@@ -127,7 +131,7 @@ internal class Program
         while ((lineaActual = reader.ReadLine()) != null)
         {
             string[] datos = lineaActual.Split(",");
-            string tituloPelicula = datos[1].Trim();
+            string tituloPelicula = datos[1].Trim().Replace("'","");
             string uriPelicula = getUriPelicula(tituloPelicula, mResourceApi);
 
             if (uriPelicula.Length != 0) continue;
@@ -347,7 +351,8 @@ internal class Program
         foreach (string datosPersona in datos.Split(" || "))
         {
             int indice = datosPersona.Trim().IndexOf("[");
-            string nombre = datosPersona.Substring(0, indice);
+            string nombre = datosPersona.Substring(0, indice).Replace("'", "");
+            Console.WriteLine(nombre);
             string imagen = datosPersona.Substring(indice + 1).Replace("]","");
             string uri = getUriPersona(nombre, mResourceApi);
             if (uri.Length != 0) { personas.Add(uri); continue; };
